@@ -30,7 +30,7 @@ public class Program
             Console.WriteLine("Enter the tax rate:");
             if (double.TryParse(Console.ReadLine(), out tax))
             {
-                if (tax >= 0 && tax <= 100)
+                if (tax >= 0 && tax <= 1)
                 {
                     isValidInput = true;
                 }
@@ -53,7 +53,12 @@ public class Program
             Tax = tax
         };
 
+        GetPriceAfterAndBeforeTax(product);
+    
+    }
 
+    private static void GetPriceAfterAndBeforeTax(Product product)
+    {
         ProductService productService = new(new TaxServcie(product));
 
         productService.AllInformationAboutProductPrice();

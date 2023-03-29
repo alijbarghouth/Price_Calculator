@@ -11,6 +11,11 @@ namespace Price_Calculator.Service.ProductServices.TaxService
         }
         public void PrintTheProductPriceToTheUser()
         {
+            if(_product is null)
+            {
+                Console.WriteLine("the product must be not null");
+                return;
+            }
             Console.WriteLine($"the product price before the tax is {_product.Price}");
 
             Console.WriteLine($"the product after the tax is {GetTotalPriceAfterTheTax()}");
