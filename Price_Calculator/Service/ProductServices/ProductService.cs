@@ -1,18 +1,23 @@
 ﻿using Price_Calculator.Model;
+using Price_Calculator.Service.ProductServices.TaxService;
 
 namespace Price_Calculator.Service.ProductServices
 {
     public class ProductService
     {
-        internal static void GetPriceAfterTax(Product product, double tax)
+        private readonly ITaxServcie _taxServcie;
+
+        public ProductService(ITaxServcie taxServcie)
         {
-            Console.WriteLine($"the product price before the tax is {product.Price}");
-
-            decimal taxAmount = Math.Round(product.Price * (decimal) tax,2);
-
-            decimal priceAfterTheTax = product.Price + taxAmount;
-
-            Console.WriteLine($"the product price after the tax = {priceAfterTheTax}");
+            _taxServcie = taxServcie;
         }
+
+        public void GetPriceAfterTax()
+        {
+           _taxServcie.PrintTheProductPriceToTheUser();
+        }
+
+        
+
     }
 }
