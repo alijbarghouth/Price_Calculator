@@ -53,7 +53,12 @@ public class Program
             Tax = tax
         };
 
+        GetPriceAfterAndBeforeTax(null);
+    
+    }
 
+    private static void GetPriceAfterAndBeforeTax(Product product)
+    {
         ProductService productService = new(new TaxServcie(product));
 
         productService.AllInformationAboutProductPrice();

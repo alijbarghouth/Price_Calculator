@@ -11,15 +11,21 @@ namespace Price_Calculator.Service.ProductServices.TaxService
         }
         public void PrintTheProductPriceToTheUser()
         {
+            if (_product is null)
+            {
+                Console.WriteLine("the product is null");
+                return;
+            }
             Console.WriteLine($"the product price before the tax is {_product.Price}");
 
             Console.WriteLine($"the product after the tax is {GetTotalPriceAfterTheTax()}");
         }
-        public decimal GetTotalPriceAfterTheTax()
+
+        private decimal GetTotalPriceAfterTheTax()
         {
             return _product.Price + GetTaxAmount();
         }
-        public decimal GetTaxAmount()
+        private decimal GetTaxAmount()
         {
             return Math.Round(_product.Price * (decimal)_product.Tax, 2);
         }
