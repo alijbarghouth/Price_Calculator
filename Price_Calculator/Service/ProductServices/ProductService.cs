@@ -12,9 +12,10 @@ namespace Price_Calculator.Service.ProductServices
             _taxServcie = taxServcie;
         }
 
-        public void GetPriceAfterTax()
+        public void AllInformationAboutProductPrice()
         {
-           _taxServcie.PrintTheProductPriceToTheUser();
+            Console.WriteLine("The Price Info Is: ");
+            _taxServcie.PrintTheProductPriceToTheUser();
         }
 
         

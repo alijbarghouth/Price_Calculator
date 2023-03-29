@@ -45,7 +45,7 @@ public class Program
             }
         }
 
-        Product product = new Product
+        var product = new Product
         {
             Name = name,
             Price = price,
@@ -54,9 +54,9 @@ public class Program
         };
 
 
-        ITaxServcie taxServcie = new TaxServcie(product);
-        ProductService productService = new (taxServcie);
-        productService.GetPriceAfterTax();
+        ProductService productService = new(new TaxServcie(product));
+
+        productService.AllInformationAboutProductPrice();
     }
 
 
