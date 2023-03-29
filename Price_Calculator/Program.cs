@@ -53,7 +53,11 @@ public class Program
             Tax = tax
         };
 
+<<<<<<< HEAD
         GetPriceAfterAndBeforeTax(product);
+=======
+        GetPriceAfterAndBeforeTax(null);
+>>>>>>> 5ad920379c7d34298beb508d5274e5bc80c17f82
     
     }
 
