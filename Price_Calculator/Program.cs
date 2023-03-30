@@ -6,6 +6,25 @@ public class Program
 {
     private static void Main(string[] args)
     {
+
+
+        var product = InputValidation();
+
+        GetPriceAfterAndBeforeTax(product);
+
+    
+    }
+
+    private static void GetPriceAfterAndBeforeTax(Product product)
+    {
+        ProductService productService = new(new TaxServcie(product));
+
+        productService.AllInformationAboutProductPrice();
+    }
+
+
+    private static Product InputValidation()
+    {
         Console.WriteLine("Enter The Product Name");
         var name = Console.ReadLine();
 
@@ -44,28 +63,9 @@ public class Program
                 Console.WriteLine("Invalid input. Please enter a valid decimal value.");
             }
         }
+        var product = new Product(name, price, upc, tax);
 
-        var product = new Product
-        {
-            Name = name,
-            Price = price,
-            UPC = upc,
-            Tax = tax
-        };
-
-        GetPriceAfterAndBeforeTax(product);
-
-    
+        return product;
     }
-
-    private static void GetPriceAfterAndBeforeTax(Product product)
-    {
-        ProductService productService = new(new TaxServcie(product));
-
-        productService.AllInformationAboutProductPrice();
-    }
-
-
-
 
 }
