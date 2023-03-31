@@ -1,4 +1,6 @@
-﻿namespace Price_Calculator.Model
+﻿using Price_Calculator.Common;
+
+namespace Price_Calculator.Model
 {
     public class Product
     {
@@ -14,14 +16,9 @@
             UPC = upc;
             Tax = tax;
         }
-
         public decimal GetTotalPriceAfterTheTax()
         {
-            return Price + GetTaxAmount();
-        }
-        private decimal GetTaxAmount()
-        {
-            return Math.Round(Price * (decimal)Tax, 2);
+            return Price + Price.GetTaxAmount(Tax);
         }
     }
 }
