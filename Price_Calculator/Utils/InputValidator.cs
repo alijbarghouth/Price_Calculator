@@ -9,6 +9,7 @@ namespace Price_Calculator.Utils
         private readonly static string pricePattern = @"^\d+(\.\d{1,2})?$";
         private readonly static string upcPattern = @"^\d+$";
         private readonly static string taxPattern = @"^\d+(\.\d{1,2})?$";
+        private readonly static string discountPattern = @"^\d+(\.\d{1,2})?$";
 
         public static Product InputValidation()
         {
@@ -16,7 +17,9 @@ namespace Price_Calculator.Utils
             var price = PriceInputValidation();
             var upc = UpcInputValidation();
             var tax = TaxInputValidation();
-            var product = new Product(name, price, upc, tax);
+            var discount = DiscountInputValidation();
+
+            var product = new Product(name, price, upc, tax,discount);
 
             return product;
         }
@@ -55,6 +58,15 @@ namespace Price_Calculator.Utils
             var taxDouble = taxInput.InputsValidatedUsingRegularExpression(taxPattern);
 
             return Convert.ToDouble(taxDouble);
+        }
+        private static double DiscountInputValidation()
+        {
+            Console.WriteLine("Enter The Product Discount");
+
+            var discountInput = Console.ReadLine();
+            var discountDouble = discountInput.InputsValidatedUsingRegularExpression(discountPattern);
+
+            return Convert.ToDouble(discountDouble);
         }
     }
 }

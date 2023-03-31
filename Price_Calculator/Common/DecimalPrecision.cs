@@ -2,9 +2,9 @@
 {
     public static class DecimalPrecision
     {
-        public static decimal GetTaxAmount(this decimal price, double tax)
+        public static decimal GetAmountFromPriceBasedOfRate(this decimal price, double rate)
         {
-            return Math.Round(price * (decimal)tax, 2);
+            return Math.Round(price * (decimal)rate, 2);
         }
     }
 }

@@ -8,17 +8,29 @@ namespace Price_Calculator.Model
         public decimal Price { get; set; }
         public int UPC { get; set; }
         public double Tax { get; set; }
+        public double Discount { get; set; }
 
-        public Product(string name, decimal price, int upc, double tax)
+        public Product(string name, decimal price, int upc, double tax, double discount)
         {
             Name = name;
             Price = price;
             UPC = upc;
             Tax = tax;
+            Discount = discount;
         }
-        public decimal GetTotalPriceAfterTheTax()
+        public decimal GetTotalPriceAfterTaxAndDiscount()
         {
-            return Price + Price.GetTaxAmount(Tax);
+            return Price
+                + Price.GetAmountFromPriceBasedOfRate(Tax)
+                - Price.GetAmountFromPriceBasedOfRate(Discount);
+        }
+        public decimal GetTheTax()
+        {
+            return Price.GetAmountFromPriceBasedOfRate(Tax);
+        }
+        public decimal GetTheDiscount()
+        {
+            return Price.GetAmountFromPriceBasedOfRate(Discount);
         }
     }
 }
