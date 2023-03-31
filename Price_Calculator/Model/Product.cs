@@ -7,12 +7,21 @@
         public int UPC { get; set; }
         public double Tax { get; set; }
 
-        public Product(string name, decimal price, int uPC, double tax)
+        public Product(string name, decimal price, int upc, double tax)
         {
             Name = name;
             Price = price;
-            UPC = uPC;
+            UPC = upc;
             Tax = tax;
+        }
+
+        public decimal GetTotalPriceAfterTheTax()
+        {
+            return Price + GetTaxAmount();
+        }
+        private decimal GetTaxAmount()
+        {
+            return Math.Round(Price * (decimal)Tax, 2);
         }
     }
 }

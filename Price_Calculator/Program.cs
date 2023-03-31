@@ -1,71 +1,28 @@
 ﻿using Price_Calculator.Model;
 using Price_Calculator.Service.ProductServices;
 using Price_Calculator.Service.ProductServices.TaxService;
+using Price_Calculator.Utils;
 
 public class Program
 {
     private static void Main(string[] args)
     {
+        var program = new Program();
 
+        var product = InputValidator.InputValidation();
 
-        var product = InputValidation();
+        program.GetPriceAfterAndBeforeTax(product);
+    }
 
-        GetPriceAfterAndBeforeTax(product);
+    private  void GetPriceAfterAndBeforeTax(Product product)
+    {
+
+        var productService = new ProductService(new TaxServcie());
+
+        productService.AllInformationAboutProductPrice(product);
+    }
+
 
     
-    }
-
-    private static void GetPriceAfterAndBeforeTax(Product product)
-    {
-        ProductService productService = new(new TaxServcie(product));
-
-        productService.AllInformationAboutProductPrice();
-    }
-
-
-    private static Product InputValidation()
-    {
-        Console.WriteLine("Enter The Product Name");
-        var name = Console.ReadLine();
-
-        Console.WriteLine("Enter The Product Price");
-        decimal price;
-        while (!decimal.TryParse(Console.ReadLine(), out price))
-        {
-            Console.WriteLine("Invalid price. Please enter a valid value.");
-        }
-
-        Console.WriteLine("Enter The Product Upc");
-        int upc;
-        while (!int.TryParse(Console.ReadLine(), out upc))
-        {
-            Console.WriteLine("Invalid UPC. Please enter a valid  value.");
-        }
-
-        double tax = 0;
-        bool isValidInput = false;
-        while (!isValidInput)
-        {
-            Console.WriteLine("Enter the tax rate:");
-            if (double.TryParse(Console.ReadLine(), out tax))
-            {
-                if (tax >= 0 && tax <= 1)
-                {
-                    isValidInput = true;
-                }
-                else
-                {
-                    Console.WriteLine("Tax rate should be between 0 and 100.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter a valid decimal value.");
-            }
-        }
-        var product = new Product(name, price, upc, tax);
-
-        return product;
-    }
 
 }
