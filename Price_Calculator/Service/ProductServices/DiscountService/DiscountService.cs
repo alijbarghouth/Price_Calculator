@@ -7,7 +7,6 @@ namespace Price_Calculator.Service.ProductServices.DiscountService
         public decimal GetTheDiscountFromPrice(Product product)
         {
             var discount = product.GetTheDiscount();
-            Console.WriteLine($"the  discount of the price is  {discount}");
 
             return discount;
         }

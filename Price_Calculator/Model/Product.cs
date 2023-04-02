@@ -9,14 +9,18 @@ namespace Price_Calculator.Model
         public int UPC { get; set; }
         public double Tax { get; set; }
         public double Discount { get; set; }
+        public int UPCValue { get; set; }
+        public double UPCDiscount { get; set; }
 
-        public Product(string name, decimal price, int upc, double tax, double discount)
+        public Product(string name, decimal price, int upc, double tax, double discount, int uPCValue, double uPCDiscount)
         {
             Name = name;
             Price = price;
             UPC = upc;
             Tax = tax;
             Discount = discount;
+            UPCValue = uPCValue;
+            UPCDiscount = uPCDiscount;
         }
         public decimal GetTotalPriceAfterTaxAndDiscount()
         {
@@ -31,6 +35,10 @@ namespace Price_Calculator.Model
         public decimal GetTheDiscount()
         {
             return Price.GetAmountFromPriceBasedOfRate(Discount);
+        }
+        public bool IsUpcIsEqualUpcValue()
+        {
+            return UPC == UPCValue;
         }
     }
 }

@@ -18,8 +18,9 @@ namespace Price_Calculator.Utils
             var upc = UpcInputValidation();
             var tax = TaxInputValidation();
             var discount = DiscountInputValidation();
-
-            var product = new Product(name, price, upc, tax,discount);
+            var upcDiscount = UpcDiscountInputValidation();
+            var upcValue  =UpcValueInputValidation();
+            var product = new Product(name, price, upc, tax,discount,upcValue,upcDiscount);
 
             return product;
         }
@@ -39,7 +40,7 @@ namespace Price_Calculator.Utils
             var upcInput = Console.ReadLine();
             var upcString = upcInput.InputsValidatedUsingRegularExpression(upcPattern);
 
-            return Convert.ToInt32(upcString);
+            return int.Parse(upcString);
         }
         private static decimal PriceInputValidation()
         {
@@ -67,6 +68,24 @@ namespace Price_Calculator.Utils
             var discountDouble = discountInput.InputsValidatedUsingRegularExpression(discountPattern);
 
             return Convert.ToDouble(discountDouble);
+        }
+        private static double UpcDiscountInputValidation()
+        {
+            Console.WriteLine("Enter The Product UPC Discount");
+
+            var upcDiscountInput = Console.ReadLine();
+            var discountDouble = upcDiscountInput.InputsValidatedUsingRegularExpression(discountPattern);
+
+            return Convert.ToDouble(discountDouble);
+        }
+        private static int UpcValueInputValidation()
+        {
+            Console.WriteLine("Enter The Product UPC value");
+
+            var upcValueInput = Console.ReadLine();
+            var upcValueDouble = upcValueInput.InputsValidatedUsingRegularExpression(discountPattern);
+
+            return int.Parse(upcValueDouble);
         }
     }
 }
