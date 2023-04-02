@@ -10,6 +10,7 @@ namespace Price_Calculator.Utils
         private readonly static string upcPattern = @"^\d+$";
         private readonly static string taxPattern = @"^\d+(\.\d{1,2})?$";
         private readonly static string discountPattern = @"^\d+(\.\d{1,2})?$";
+        private readonly static string ApplayPattern = @"^(True|False|true|false)$";
 
         public static Product InputValidation()
         {
@@ -20,7 +21,9 @@ namespace Price_Calculator.Utils
             var discount = DiscountInputValidation();
             var upcDiscount = UpcDiscountInputValidation();
             var upcValue  =UpcValueInputValidation();
-            var product = new Product(name, price, upc, tax,discount,upcValue,upcDiscount);
+            var applyDiscountsBeforeTax = ApplyDiscountsBeforeTaxInput();
+            var applyUpcDiscountsBeforeTax = ApplyDiscountsBeforeTaxInput();
+            var product = new Product(name, price, upc, tax,discount,upcValue,upcDiscount,applyDiscountsBeforeTax,applyUpcDiscountsBeforeTax);
 
             return product;
         }
@@ -86,6 +89,15 @@ namespace Price_Calculator.Utils
             var upcValueDouble = upcValueInput.InputsValidatedUsingRegularExpression(discountPattern);
 
             return int.Parse(upcValueDouble);
+        }
+        private static bool ApplyDiscountsBeforeTaxInput()
+        {
+            Console.WriteLine("Enter The True if you like to Apply Discounts Before Tax or false to Apply Discounts After Tax ");
+
+            var applyDiscountsBeforeTax = Console.ReadLine();
+            var applyDiscountsBeforeTaxBool = applyDiscountsBeforeTax.InputsValidatedUsingRegularExpression(ApplayPattern);
+
+            return bool.Parse(applyDiscountsBeforeTaxBool);
         }
     }
 }
