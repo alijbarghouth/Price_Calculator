@@ -7,7 +7,14 @@ namespace Price_Calculator.Service.ProductServices.UpcDiscountService
     {
         public decimal GetUpcDiscount(Product product)
         {
-            return product.Price.GetAmountFromPriceBasedOfRate(product.UPCDiscount);
+            var upcDiscount = product.Price.GetAmountFromPriceBasedOfRate(product.UPCDiscount);
+            SetTotalPriceAfterTheDiscount(product);
+
+            return upcDiscount;
+        }
+        private void SetTotalPriceAfterTheDiscount(Product product)
+        {
+            product.Price -= product.Price.GetAmountFromPriceBasedOfRate(product.UPCDiscount);
         }
     }
 }

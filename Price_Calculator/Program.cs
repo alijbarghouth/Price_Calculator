@@ -9,8 +9,8 @@ public class Program
     private static void Main(string[] args)
     {
         var product = InputValidator.InputValidation();
-        var productService = new ProductService(new TaxServcie(),new DiscountService()
-            ,new UPCDiscountServcie());
+        var productService = new ProductService(new TaxServcie(), new DiscountService()
+            , new UPCDiscountServcie());
 
         productService.AllInformationAboutProductPriceAfterTaxAndDiscount(product);
     }

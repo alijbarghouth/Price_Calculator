@@ -1,5 +1,4 @@
-﻿using Price_Calculator.Common;
-using Price_Calculator.Model;
+﻿using Price_Calculator.Model;
 using Price_Calculator.Service.ProductServices.DiscountService;
 using Price_Calculator.Service.ProductServices.TaxService;
 using Price_Calculator.Service.ProductServices.UpcDiscountService;
@@ -27,9 +26,9 @@ namespace Price_Calculator.Service.ProductServices
                 Console.WriteLine("the product must be not null");
                 return;
             }
-
             Console.WriteLine($"The product price before any calcalation is {product.Price}");
-            Console.WriteLine($"the  discount of the price is  {GetTotalDiscount(product)}");
+            var totalDiscount = GetTotalDiscount(product);
+            Console.WriteLine($"the  discount of the price is  {totalDiscount}");
             Console.WriteLine($"The product After Tax And Discount is {PriceAfterTaxAndDiscount(product)}");
         }
 
@@ -40,17 +39,13 @@ namespace Price_Calculator.Service.ProductServices
             var discount = _discountService.GetTheDiscountFromPrice(product);
             var totalPrice = price + tax - discount;
 
-            return product.IsUpcIsEqualUpcValue() 
-                ? totalPrice - _uPCDiscountServcie.GetUpcDiscount(product)
-                : totalPrice ;
+            return totalPrice;
         }
         private decimal GetTotalDiscount(Product product)
         {
-            var totalDiscount = _discountService.GetTheDiscountFromPrice(product);
-
             return product.IsUpcIsEqualUpcValue() 
-                ? totalDiscount + _uPCDiscountServcie.GetUpcDiscount(product)
-                : totalDiscount ;
+                ? _uPCDiscountServcie.GetUpcDiscount(product) + _discountService.GetTheDiscountFromPrice(product)
+                : _discountService.GetTheDiscountFromPrice(product);
         }
     }
 }
