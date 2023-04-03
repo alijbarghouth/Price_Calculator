@@ -21,13 +21,16 @@ namespace Price_Calculator.Utils
             var discount = DiscountInputValidation();
             var upcDiscount = UpcDiscountInputValidation();
             var upcValue  = UpcValueInputValidation();
-            var applyDiscountsBeforeTax = BooleanInputs();
-            var applyUpcDiscountsBeforeTax = BooleanInputs();
+            var applyDiscountsBeforeTax = BooleanInputs("Enter The True if you like to Apply Discounts Before Tax or false to Apply Discounts After Tax ");
+            var applyUpcDiscountsBeforeTax = BooleanInputs("Enter The True if you like to Apply Discounts Before Tax or false to Apply Discounts After Tax ");
             var packagingCost = DoubleInputs("Enter The Product Packaging Cost");
             var transportCost = DoubleInputs("Enter The Product Transport Cost");
+            var isNormalDiscount = BooleanInputs("Enter The True if you like to Apply Normal Discounts or false to Apply not normal Discounts");
+            var cap = DoubleInputs("Enter The Product Cap");
+
             var product = new Product(name, price, upc, tax,discount,upcValue,upcDiscount
                 ,applyDiscountsBeforeTax,applyUpcDiscountsBeforeTax,packagingCost
-                ,transportCost,false);
+                ,transportCost,isNormalDiscount,cap);
 
             return product;
         }
@@ -94,9 +97,9 @@ namespace Price_Calculator.Utils
 
             return int.Parse(upcValueDouble);
         }
-        private static bool BooleanInputs()
+        private static bool BooleanInputs(string message)
         {
-            Console.WriteLine("Enter The True if you like to Apply Discounts Before Tax or false to Apply Discounts After Tax ");
+            Console.WriteLine(message);
 
             var applyDiscountsBeforeTax = Console.ReadLine();
             var applyDiscountsBeforeTaxBool = applyDiscountsBeforeTax.InputsValidatedUsingRegularExpression(booleanPattern);

@@ -16,11 +16,13 @@ namespace Price_Calculator.Model
         public double PackagingCost { get; set; }
         public double TransportCost { get; set; }
         public bool IsNormalDiscount { get; set; }
+        public double Cap { get; set; }
 
         public Product(string name, decimal price, int upc,
             double tax, double discount, int uPCValue,
             double uPCDiscount, bool applyDiscountsBeforeTax,
-            bool applyUpcDiscountsBeforeTax, double transportCost, double packagingCost, bool isNormalDiscount)
+            bool applyUpcDiscountsBeforeTax, double transportCost, double packagingCost
+            , bool isNormalDiscount, double cap)
         {
             Name = name;
             Price = price;
@@ -34,6 +36,7 @@ namespace Price_Calculator.Model
             TransportCost = transportCost;
             PackagingCost = packagingCost;
             IsNormalDiscount = isNormalDiscount;
+            Cap = cap;
         }
         public decimal GetTotalPriceAfterTaxAndDiscount()
         {
@@ -63,11 +66,15 @@ namespace Price_Calculator.Model
         }
         private decimal GetTransportCost()
         {
-            return TransportCost > 1 ? (decimal)TransportCost : Price.GetAmountFromPriceBasedOfRate(TransportCost);
+            return TransportCost >= 1 ? (decimal)TransportCost : Price.GetAmountFromPriceBasedOfRate(TransportCost);
         }
         private decimal GetPackagingCost()
         {
-            return PackagingCost > 1 ? (decimal)PackagingCost : Price.GetAmountFromPriceBasedOfRate(PackagingCost);
+            return PackagingCost >= 1 ? (decimal)PackagingCost : Price.GetAmountFromPriceBasedOfRate(PackagingCost);
+        }
+        public decimal GetCapFromProductPrice()
+        {
+            return Cap >= 1 ? (decimal)Cap : Price.GetAmountFromPriceBasedOfRate(Cap); 
         }
     }
 }

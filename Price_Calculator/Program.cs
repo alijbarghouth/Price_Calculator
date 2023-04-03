@@ -1,4 +1,5 @@
 ﻿using Price_Calculator.Service.ProductServices;
+using Price_Calculator.Service.ProductServices.CapService;
 using Price_Calculator.Service.ProductServices.CostService;
 using Price_Calculator.Service.ProductServices.DiscountService;
 using Price_Calculator.Service.ProductServices.TaxService;
@@ -11,7 +12,7 @@ public class Program
     {
         var product = InputValidator.InputValidation();
         var productService = new ProductService(new TaxServcie(), new DiscountService()
-            , new UPCDiscountServcie(), new CostService());
+            , new UPCDiscountServcie(), new CostService() ,new CapService());
 
         productService.AllInformationAboutProductPriceAfterTaxAndDiscount(product);
     }

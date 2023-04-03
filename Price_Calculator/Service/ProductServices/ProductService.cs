@@ -1,4 +1,5 @@
 ﻿using Price_Calculator.Model;
+using Price_Calculator.Service.ProductServices.CapService;
 using Price_Calculator.Service.ProductServices.CostService;
 using Price_Calculator.Service.ProductServices.DiscountService;
 using Price_Calculator.Service.ProductServices.TaxService;
@@ -12,16 +13,20 @@ namespace Price_Calculator.Service.ProductServices
         private readonly IDiscountService _discountService;
         private readonly IUPCDiscountServcie _uPCDiscountServcie;
         private readonly ICostService _costService;
-        private  decimal _taxAnCost;
+        private readonly ICapService _capService;
+        private  decimal _taxAndCost;
+
         public ProductService(ITaxServcie taxServcie
             , IDiscountService discountService
             , IUPCDiscountServcie uPCDiscountServcie
-            , ICostService costService)
+            , ICostService costService
+            , ICapService capService)
         {
             _taxServcie = taxServcie;
             _discountService = discountService;
             _uPCDiscountServcie = uPCDiscountServcie;
             _costService = costService;
+            _capService = capService;
         }
 
         public void AllInformationAboutProductPriceAfterTaxAndDiscount(Product product)
@@ -32,15 +37,25 @@ namespace Price_Calculator.Service.ProductServices
                 return;
             }
             Console.WriteLine($"The product price before any calcalation is {product.Price}");
-            var totalDiscount = GetTotalDiscount(product);
-            Console.WriteLine($"the  discount of the price is  {totalDiscount}");
-            Console.WriteLine($"The product After Tax And Discount is {PriceAfterTaxAndDiscountAndCosts(product)}");
+            var discount = GetTotalDiscount(product);
+            var theLessDiscount = GetDiscount(product,discount);
+            Console.WriteLine($"the  discount of the price is  {theLessDiscount}");
+            Console.WriteLine($"The product After Tax And Discount is {PriceAfterTaxAndDiscountAndCosts(product,discount)}");
         }
-
-        private decimal PriceAfterTaxAndDiscountAndCosts(Product product)
+        private decimal GetDiscount(Product product, decimal discount)
         {
-            var taxAndCost = _taxAnCost;
-            var totalPrice = GetTotalPrice(product, taxAndCost) ;
+            var capDiscount = _capService.GetCapFromPrice(product);
+            
+            return discount < capDiscount ? discount : capDiscount;
+        }
+        private decimal PriceAfterTaxAndDiscountAndCosts(Product product ,decimal totalDiscount)
+        {
+            var capDiscount = _capService.GetCapFromPrice(product);
+            
+            if (totalDiscount > capDiscount)
+                return product.Price + GetTaxAndCost(product) - capDiscount;
+
+            var totalPrice = GetTotalPrice(product) ;
 
             return totalPrice;
         }
@@ -49,9 +64,9 @@ namespace Price_Calculator.Service.ProductServices
             return _taxServcie.GetTheTaxFromPrice(product)
                 + _costService.GetTotalCostromPrice(product);
         }
-        private decimal GetTotalPrice(Product product, decimal taxAndCost)
+        private decimal GetTotalPrice(Product product)
         {
-            var priceWithTax = product.Price + taxAndCost;
+            var priceWithTax = product.Price + _taxServcie.GetTheTaxFromPrice(product);
 
             if(product.IsApplyDiscountsBeforeTax && product.IsApplyUpcDiscountsBeforeTax)
                 return priceWithTax;
@@ -66,7 +81,7 @@ namespace Price_Calculator.Service.ProductServices
         private decimal GetTotalDiscount(Product product)
         {
             if (!product.IsNormalDiscount)
-                _taxAnCost = GetTaxAndCost(product);
+                _taxAndCost = GetTaxAndCost(product);
             if (product.IsApplyUpcDiscountsBeforeTax)
                 return product.IsUpcIsEqualUpcValue()
                     ? _uPCDiscountServcie.GetUpcDiscount(product) + _discountService.GetTheDiscountFromPrice(product)
