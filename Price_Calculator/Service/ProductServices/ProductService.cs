@@ -12,7 +12,7 @@ namespace Price_Calculator.Service.ProductServices
         private readonly IDiscountService _discountService;
         private readonly IUPCDiscountServcie _uPCDiscountServcie;
         private readonly ICostService _costService;
-
+        private  decimal _taxAnCost;
         public ProductService(ITaxServcie taxServcie
             , IDiscountService discountService
             , IUPCDiscountServcie uPCDiscountServcie
@@ -39,11 +39,15 @@ namespace Price_Calculator.Service.ProductServices
 
         private decimal PriceAfterTaxAndDiscountAndCosts(Product product)
         {
-            var taxAndCost = _taxServcie.GetTheTaxFromPrice(product) 
-                + _costService.GetTotalCostromPrice(product);
+            var taxAndCost = _taxAnCost;
             var totalPrice = GetTotalPrice(product, taxAndCost) ;
 
             return totalPrice;
+        }
+        private decimal GetTaxAndCost(Product product)
+        {
+            return _taxServcie.GetTheTaxFromPrice(product)
+                + _costService.GetTotalCostromPrice(product);
         }
         private decimal GetTotalPrice(Product product, decimal taxAndCost)
         {
@@ -51,7 +55,7 @@ namespace Price_Calculator.Service.ProductServices
 
             if(product.IsApplyDiscountsBeforeTax && product.IsApplyUpcDiscountsBeforeTax)
                 return priceWithTax;
-            else if (product.IsApplyDiscountsBeforeTax && !product.IsApplyUpcDiscountsBeforeTax)
+            else if ((product.IsApplyDiscountsBeforeTax || !product.IsNormalDiscount) && !product.IsApplyUpcDiscountsBeforeTax)
                 return priceWithTax - _uPCDiscountServcie.GetUpcDiscount(product);
             else if(!product.IsApplyDiscountsBeforeTax && product.IsApplyUpcDiscountsBeforeTax)
                 return priceWithTax - _discountService.GetTheDiscountFromPrice(product);
@@ -61,6 +65,8 @@ namespace Price_Calculator.Service.ProductServices
         }
         private decimal GetTotalDiscount(Product product)
         {
+            if (!product.IsNormalDiscount)
+                _taxAnCost = GetTaxAndCost(product);
             if (product.IsApplyUpcDiscountsBeforeTax)
                 return product.IsUpcIsEqualUpcValue()
                     ? _uPCDiscountServcie.GetUpcDiscount(product) + _discountService.GetTheDiscountFromPrice(product)

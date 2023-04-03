@@ -27,7 +27,7 @@ namespace Price_Calculator.Utils
             var transportCost = DoubleInputs("Enter The Product Transport Cost");
             var product = new Product(name, price, upc, tax,discount,upcValue,upcDiscount
                 ,applyDiscountsBeforeTax,applyUpcDiscountsBeforeTax,packagingCost
-                ,transportCost);
+                ,transportCost,false);
 
             return product;
         }

@@ -15,11 +15,12 @@ namespace Price_Calculator.Model
         public bool IsApplyUpcDiscountsBeforeTax { get; set; }
         public double PackagingCost { get; set; }
         public double TransportCost { get; set; }
+        public bool IsNormalDiscount { get; set; }
 
         public Product(string name, decimal price, int upc,
             double tax, double discount, int uPCValue,
             double uPCDiscount, bool applyDiscountsBeforeTax,
-            bool applyUpcDiscountsBeforeTax, double transportCost, double packagingCost)
+            bool applyUpcDiscountsBeforeTax, double transportCost, double packagingCost, bool isNormalDiscount)
         {
             Name = name;
             Price = price;
@@ -32,6 +33,7 @@ namespace Price_Calculator.Model
             IsApplyUpcDiscountsBeforeTax = applyUpcDiscountsBeforeTax;
             TransportCost = transportCost;
             PackagingCost = packagingCost;
+            IsNormalDiscount = isNormalDiscount;
         }
         public decimal GetTotalPriceAfterTaxAndDiscount()
         {
