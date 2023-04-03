@@ -8,7 +8,7 @@ namespace Price_Calculator.Service.ProductServices.DiscountService
         public decimal GetTheDiscountFromPrice(Product product)
         {
             var discount = product.GetTheDiscount();
-            if (product.ApplyDiscountsBeforeTax)
+            if (product.IsApplyDiscountsBeforeTax)
                 SetTotalPriceAfterTheDiscount(product);
 
             return discount;

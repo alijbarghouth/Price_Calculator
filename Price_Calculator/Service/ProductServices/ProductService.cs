@@ -1,4 +1,5 @@
 ﻿using Price_Calculator.Model;
+using Price_Calculator.Service.ProductServices.CostService;
 using Price_Calculator.Service.ProductServices.DiscountService;
 using Price_Calculator.Service.ProductServices.TaxService;
 using Price_Calculator.Service.ProductServices.UpcDiscountService;
@@ -10,13 +11,17 @@ namespace Price_Calculator.Service.ProductServices
         private readonly ITaxServcie _taxServcie;
         private readonly IDiscountService _discountService;
         private readonly IUPCDiscountServcie _uPCDiscountServcie;
+        private readonly ICostService _costService;
+
         public ProductService(ITaxServcie taxServcie
             , IDiscountService discountService
-            , IUPCDiscountServcie uPCDiscountServcie)
+            , IUPCDiscountServcie uPCDiscountServcie
+            , ICostService costService)
         {
             _taxServcie = taxServcie;
             _discountService = discountService;
             _uPCDiscountServcie = uPCDiscountServcie;
+            _costService = costService;
         }
 
         public void AllInformationAboutProductPriceAfterTaxAndDiscount(Product product)
@@ -29,25 +34,26 @@ namespace Price_Calculator.Service.ProductServices
             Console.WriteLine($"The product price before any calcalation is {product.Price}");
             var totalDiscount = GetTotalDiscount(product);
             Console.WriteLine($"the  discount of the price is  {totalDiscount}");
-            Console.WriteLine($"The product After Tax And Discount is {PriceAfterTaxAndDiscount(product,totalDiscount)}");
+            Console.WriteLine($"The product After Tax And Discount is {PriceAfterTaxAndDiscountAndCosts(product)}");
         }
 
-        private decimal PriceAfterTaxAndDiscount(Product product, decimal totalDiscount)
+        private decimal PriceAfterTaxAndDiscountAndCosts(Product product)
         {
-            var price = product.Price;
-            var tax = _taxServcie.GetTheTaxFromPrice(product);
-            var totalPrice = GetTotalPrice(product, tax);
+            var taxAndCost = _taxServcie.GetTheTaxFromPrice(product) 
+                + _costService.GetTotalCostromPrice(product);
+            var totalPrice = GetTotalPrice(product, taxAndCost) ;
 
             return totalPrice;
         }
-        private decimal GetTotalPrice(Product product, decimal tax)
+        private decimal GetTotalPrice(Product product, decimal taxAndCost)
         {
-            var priceWithTax = product.Price + tax;
-            if(product.ApplyDiscountsBeforeTax && product.ApplyUpcDiscountsBeforeTax)
+            var priceWithTax = product.Price + taxAndCost;
+
+            if(product.IsApplyDiscountsBeforeTax && product.IsApplyUpcDiscountsBeforeTax)
                 return priceWithTax;
-            else if (product.ApplyDiscountsBeforeTax && !product.ApplyUpcDiscountsBeforeTax)
+            else if (product.IsApplyDiscountsBeforeTax && !product.IsApplyUpcDiscountsBeforeTax)
                 return priceWithTax - _uPCDiscountServcie.GetUpcDiscount(product);
-            else if(!product.ApplyDiscountsBeforeTax && product.ApplyUpcDiscountsBeforeTax)
+            else if(!product.IsApplyDiscountsBeforeTax && product.IsApplyUpcDiscountsBeforeTax)
                 return priceWithTax - _discountService.GetTheDiscountFromPrice(product);
             else
                 return priceWithTax - _discountService.GetTheDiscountFromPrice(product)
@@ -55,7 +61,7 @@ namespace Price_Calculator.Service.ProductServices
         }
         private decimal GetTotalDiscount(Product product)
         {
-            if (product.ApplyUpcDiscountsBeforeTax)
+            if (product.IsApplyUpcDiscountsBeforeTax)
                 return product.IsUpcIsEqualUpcValue()
                     ? _uPCDiscountServcie.GetUpcDiscount(product) + _discountService.GetTheDiscountFromPrice(product)
                     : _discountService.GetTheDiscountFromPrice(product);

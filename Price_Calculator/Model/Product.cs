@@ -11,10 +11,15 @@ namespace Price_Calculator.Model
         public double Discount { get; set; }
         public int UPCValue { get; set; }
         public double UPCDiscount { get; set; }
-        public bool ApplyDiscountsBeforeTax { get; set; }
-        public bool ApplyUpcDiscountsBeforeTax { get; set; }
+        public bool IsApplyDiscountsBeforeTax { get; set; }
+        public bool IsApplyUpcDiscountsBeforeTax { get; set; }
+        public double PackagingCost { get; set; }
+        public double TransportCost { get; set; }
 
-        public Product(string name, decimal price, int upc, double tax, double discount, int uPCValue, double uPCDiscount, bool applyDiscountsBeforeTax, bool applyUpcDiscountsBeforeTax)
+        public Product(string name, decimal price, int upc,
+            double tax, double discount, int uPCValue,
+            double uPCDiscount, bool applyDiscountsBeforeTax,
+            bool applyUpcDiscountsBeforeTax, double transportCost, double packagingCost)
         {
             Name = name;
             Price = price;
@@ -23,8 +28,10 @@ namespace Price_Calculator.Model
             Discount = discount;
             UPCValue = uPCValue;
             UPCDiscount = uPCDiscount;
-            ApplyDiscountsBeforeTax = applyDiscountsBeforeTax;
-            ApplyUpcDiscountsBeforeTax = applyUpcDiscountsBeforeTax;
+            IsApplyDiscountsBeforeTax = applyDiscountsBeforeTax;
+            IsApplyUpcDiscountsBeforeTax = applyUpcDiscountsBeforeTax;
+            TransportCost = transportCost;
+            PackagingCost = packagingCost;
         }
         public decimal GetTotalPriceAfterTaxAndDiscount()
         {
@@ -47,6 +54,18 @@ namespace Price_Calculator.Model
         public bool IsUpcIsEqualUpcValue()
         {
             return UPC == UPCValue;
+        }
+        public decimal GetTotalCost()
+        {
+            return GetTransportCost() + GetPackagingCost();
+        }
+        private decimal GetTransportCost()
+        {
+            return TransportCost > 1 ? (decimal)TransportCost : Price.GetAmountFromPriceBasedOfRate(TransportCost);
+        }
+        private decimal GetPackagingCost()
+        {
+            return PackagingCost > 1 ? (decimal)PackagingCost : Price.GetAmountFromPriceBasedOfRate(PackagingCost);
         }
     }
 }
