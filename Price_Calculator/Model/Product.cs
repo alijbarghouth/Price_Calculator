@@ -17,12 +17,13 @@ namespace Price_Calculator.Model
         public double TransportCost { get; set; }
         public bool IsNormalDiscount { get; set; }
         public double Cap { get; set; }
+        public string CurrencyType { get; set; }
 
         public Product(string name, decimal price, int upc,
             double tax, double discount, int uPCValue,
             double uPCDiscount, bool applyDiscountsBeforeTax,
             bool applyUpcDiscountsBeforeTax, double transportCost, double packagingCost
-            , bool isNormalDiscount, double cap)
+            , bool isNormalDiscount, double cap, string currencyType)
         {
             Name = name;
             Price = price;
@@ -37,6 +38,7 @@ namespace Price_Calculator.Model
             PackagingCost = packagingCost;
             IsNormalDiscount = isNormalDiscount;
             Cap = cap;
+            CurrencyType = currencyType;
         }
         public decimal GetTotalPriceAfterTaxAndDiscount()
         {

@@ -36,11 +36,11 @@ namespace Price_Calculator.Service.ProductServices
                 Console.WriteLine("the product must be not null");
                 return;
             }
-            Console.WriteLine($"The product price before any calcalation is {product.Price}");
+            Console.WriteLine($"The product price before any calcalation is {product.Price}{product.CurrencyType}");
             var discount = GetTotalDiscount(product);
             var theLessDiscount = GetDiscount(product,discount);
-            Console.WriteLine($"the  discount of the price is  {theLessDiscount}");
-            Console.WriteLine($"The product After Tax And Discount is {PriceAfterTaxAndDiscountAndCosts(product,discount)}");
+            Console.WriteLine($"the  discount of the price is  {theLessDiscount}{product.CurrencyType}");
+            Console.WriteLine($"The product After Tax And Discount is {PriceAfterTaxAndDiscountAndCosts(product,discount)} {product.CurrencyType}");
         }
         private decimal GetDiscount(Product product, decimal discount)
         {
