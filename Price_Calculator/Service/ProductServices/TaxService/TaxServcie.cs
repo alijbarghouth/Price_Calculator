@@ -4,16 +4,12 @@ namespace Price_Calculator.Service.ProductServices.TaxService
 {
     public class TaxServcie : ITaxServcie
     {
-        public void PrintTheProductPriceToTheUser(Product product)
+        public decimal GetTaxFromPrice(Product product)
         {
-            if(product is null)
-            {
-                Console.WriteLine("the product must be not null");
-                return;
-            }
+            var tax = product.GetTax();
+            Console.WriteLine($"the Tax of the product is {tax}");
 
-            Console.WriteLine($"the product price before the tax and discount is {product.Price}");
-            Console.WriteLine($"the product after the tax and the discount is {product.GetTotalPriceAfterTheTax()}");
+            return tax;
         }
     }
 }
