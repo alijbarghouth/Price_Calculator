@@ -18,12 +18,7 @@ namespace Price_Calculator.Model
             Tax = tax;
             Discount = discount;
         }
-        public decimal GetTotalPriceAfterTaxAndDiscount()
-        {
-            return Price
-                + Price.RoundToTowPlaces()
-                - Price.RoundToTowPlaces();
-        }
+ 
         public decimal GetTheTax()
         {
             var taxRate = (Price * (decimal)Tax);

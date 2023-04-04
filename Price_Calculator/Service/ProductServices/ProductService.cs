@@ -24,10 +24,10 @@ namespace Price_Calculator.Service.ProductServices
             }
 
             Console.WriteLine($"The product price before any calcalation is {product.Price}");
-            Console.WriteLine($"The product After Tax And Discount is {PriceAfterTaxAndDiscount(product)}");
+            Console.WriteLine($"The product After calcalation is {FinalPrice(product)}");
         }
 
-        private decimal PriceAfterTaxAndDiscount(Product product)
+        private decimal FinalPrice(Product product)
         {
             var price = product.Price;
             var tax = _taxServcie.GetTheTaxFromPrice(product);
