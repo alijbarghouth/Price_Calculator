@@ -21,16 +21,22 @@ namespace Price_Calculator.Model
         public decimal GetTotalPriceAfterTaxAndDiscount()
         {
             return Price
-                + Price.GetAmountFromPriceBasedOfRate(Tax)
-                - Price.GetAmountFromPriceBasedOfRate(Discount);
+                + Price.RoundToTowPlaces()
+                - Price.RoundToTowPlaces();
         }
         public decimal GetTheTax()
         {
-            return Price.GetAmountFromPriceBasedOfRate(Tax);
+            var taxRate = (Price * (decimal)Tax);
+
+            return taxRate.RoundToTowPlaces();
         }
+      
         public decimal GetTheDiscount()
         {
-            return Price.GetAmountFromPriceBasedOfRate(Discount);
+            var discountRate = (Price * (decimal)Discount);
+
+            return discountRate.RoundToTowPlaces();
         }
+        
     }
 }
