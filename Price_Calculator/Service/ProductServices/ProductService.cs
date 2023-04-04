@@ -15,7 +15,7 @@ namespace Price_Calculator.Service.ProductServices
             _discountService = discountService;
         }
 
-        public void AllInformationAboutProductPriceAfterTaxAndDiscount(Product product)
+        public void AllInformationAboutProductPrice(Product product)
         {
             if (product is null)
             {

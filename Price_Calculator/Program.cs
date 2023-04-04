@@ -10,6 +10,6 @@ public class Program
         var product = InputValidator.InputValidation();
         var productService = new ProductService(new TaxServcie(),new DiscountService());
 
-        productService.AllInformationAboutProductPriceAfterTaxAndDiscount(product);
+        productService.AllInformationAboutProductPrice(product);
     }
 }
