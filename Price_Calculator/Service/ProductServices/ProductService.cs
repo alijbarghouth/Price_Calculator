@@ -11,6 +11,7 @@ namespace Price_Calculator.Service.ProductServices
         private readonly ITaxServcie _taxServcie;
         private readonly IDiscountService _discountService;
         private readonly IUPCDiscountServcie _uPCDiscountServcie;
+
         public ProductService(ITaxServcie taxServcie
             , IDiscountService discountService
             , IUPCDiscountServcie uPCDiscountServcie)
@@ -20,7 +21,7 @@ namespace Price_Calculator.Service.ProductServices
             _uPCDiscountServcie = uPCDiscountServcie;
         }
 
-        public void AllInformationAboutProductPriceAfterTaxAndDiscount(Product product)
+        public void AllInformationAboutProduct(Product product)
         {
             if (product is null)
             {
@@ -30,27 +31,21 @@ namespace Price_Calculator.Service.ProductServices
 
             Console.WriteLine($"The product price before any calcalation is {product.Price}");
             Console.WriteLine($"the  discount of the price is  {GetTotalDiscount(product)}");
-            Console.WriteLine($"The product After Tax And Discount is {PriceAfterTaxAndDiscount(product)}");
+            Console.WriteLine($"The product After calcalation is {FianlPrice(product)}");
         }
 
-        private decimal PriceAfterTaxAndDiscount(Product product)
+        private decimal FianlPrice(Product product)
         {
             var price = product.Price;
-            var tax = _taxServcie.GetTheTaxFromPrice(product);
-            var discount = _discountService.GetTheDiscountFromPrice(product);
-            var totalPrice = price + tax - discount;
-
-            return product.IsUpcIsEqualUpcValue() 
-                ? totalPrice - _uPCDiscountServcie.GetUpcDiscount(product)
-                : totalPrice ;
+            var tax = _taxServcie.GetTaxFromPrice(product);
+            
+            
+            return price + tax - GetTotalDiscount(product);
         }
         private decimal GetTotalDiscount(Product product)
         {
-            var totalDiscount = _discountService.GetTheDiscountFromPrice(product);
-
-            return product.IsUpcIsEqualUpcValue() 
-                ? totalDiscount + _uPCDiscountServcie.GetUpcDiscount(product)
-                : totalDiscount ;
+            return _discountService.GetDiscountFromPrice(product)
+                + _uPCDiscountServcie.GetUpcDiscountFromPrice(product);
         }
     }
 }

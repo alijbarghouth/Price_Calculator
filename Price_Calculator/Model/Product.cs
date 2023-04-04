@@ -22,21 +22,27 @@ namespace Price_Calculator.Model
             UPCValue = uPCValue;
             UPCDiscount = uPCDiscount;
         }
-        public decimal GetTotalPriceAfterTaxAndDiscount()
+        public decimal GetTax()
         {
-            return Price
-                + Price.GetAmountFromPriceBasedOfRate(Tax)
-                - Price.GetAmountFromPriceBasedOfRate(Discount);
+            var taxRate = Price *(decimal) Tax;
+
+            return taxRate.RoundToTwoPlaces();
         }
-        public decimal GetTheTax()
+        public decimal GetDiscount()
         {
-            return Price.GetAmountFromPriceBasedOfRate(Tax);
+            var discountRate = Price * (decimal) Discount;
+
+            return discountRate.RoundToTwoPlaces();
         }
-        public decimal GetTheDiscount()
+        public decimal GetUPCDiscount()
         {
-            return Price.GetAmountFromPriceBasedOfRate(Discount);
+            var upcDiscountRate = Price * (decimal) UPCDiscount;
+            
+            return IsUpcIsEqualUpcValue() 
+                ? upcDiscountRate.RoundToTwoPlaces()
+                : 0;
         }
-        public bool IsUpcIsEqualUpcValue()
+        private bool IsUpcIsEqualUpcValue()
         {
             return UPC == UPCValue;
         }

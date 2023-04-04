@@ -5,9 +5,9 @@ namespace Price_Calculator.Service.ProductServices.UpcDiscountService
 {
     public class UPCDiscountServcie : IUPCDiscountServcie
     {
-        public decimal GetUpcDiscount(Product product)
+        public decimal GetUpcDiscountFromPrice(Product product)
         {
-            return product.Price.GetAmountFromPriceBasedOfRate(product.UPCDiscount);
+            return product.GetUPCDiscount();
         }
     }
 }
