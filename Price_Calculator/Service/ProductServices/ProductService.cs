@@ -31,7 +31,7 @@ namespace Price_Calculator.Service.ProductServices
         {
             var price = product.Price;
             var tax = _taxServcie.GetTheTaxFromPrice(product);
-            var discount = _discountService.GetTheDiscountFromPrice(product);
+            var discount = _discountService.GetDiscountFromPrice(product);
 
             return price + tax - discount ;
         }
