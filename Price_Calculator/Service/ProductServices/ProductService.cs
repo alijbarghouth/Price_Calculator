@@ -30,7 +30,7 @@ namespace Price_Calculator.Service.ProductServices
         private decimal FinalPrice(Product product)
         {
             var price = product.Price;
-            var tax = _taxServcie.GetTheTaxFromPrice(product);
+            var tax = _taxServcie.GetTaxFromPrice(product);
             var discount = _discountService.GetDiscountFromPrice(product);
 
             return price + tax - discount ;

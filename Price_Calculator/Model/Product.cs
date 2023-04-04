@@ -19,14 +19,14 @@ namespace Price_Calculator.Model
             Discount = discount;
         }
  
-        public decimal GetTheTax()
+        public decimal GetTax()
         {
             var taxRate = (Price * (decimal)Tax);
 
             return taxRate.RoundToTowPlaces();
         }
       
-        public decimal GetTheDiscount()
+        public decimal GetDiscount()
         {
             var discountRate = (Price * (decimal)Discount);
 
