@@ -31,16 +31,14 @@ namespace Price_Calculator.Service.ProductServices
 
             Console.WriteLine($"The product price before any calcalation is {product.Price}");
             Console.WriteLine($"the  discount of the price is  {GetTotalDiscount(product)}");
-            Console.WriteLine($"The product After calcalation is {FianlPrice(product)}");
+            Console.WriteLine($"The product After calcalation is {FinalPrice(product)}");
         }
 
-        private decimal FianlPrice(Product product)
+        private decimal FinalPrice(Product product)
         {
-            var price = product.Price;
             var tax = _taxServcie.GetTaxFromPrice(product);
             
-            
-            return price + tax - GetTotalDiscount(product);
+            return product.Price + tax - GetTotalDiscount(product);
         }
         private decimal GetTotalDiscount(Product product)
         {

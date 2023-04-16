@@ -6,9 +6,7 @@ namespace Price_Calculator.Service.ProductServices.DiscountService
     {
         public decimal GetDiscountFromPrice(Product product)
         {
-            var discount = product.GetDiscount();
-
-            return discount;
+            return product.GetDiscount(); ;
         }
     }
 }
