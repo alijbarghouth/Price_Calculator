@@ -11,10 +11,10 @@ namespace Price_Calculator.Model
         public double Discount { get; set; }
         public int UPCValue { get; set; }
         public double UPCDiscount { get; set; }
-        public bool ApplyDiscountsBeforeTax { get; set; }
         public bool ApplyUpcDiscountsBeforeTax { get; set; }
 
-        public Product(string name, decimal price, int upc, double tax, double discount, int uPCValue, double uPCDiscount, bool applyDiscountsBeforeTax, bool applyUpcDiscountsBeforeTax)
+        public Product(string name, decimal price, int upc, double tax, double discount,
+            int uPCValue, double uPCDiscount, bool applyUpcDiscountsBeforeTax)
         {
             Name = name;
             Price = price;
@@ -23,28 +23,29 @@ namespace Price_Calculator.Model
             Discount = discount;
             UPCValue = uPCValue;
             UPCDiscount = uPCDiscount;
-            ApplyDiscountsBeforeTax = applyDiscountsBeforeTax;
             ApplyUpcDiscountsBeforeTax = applyUpcDiscountsBeforeTax;
         }
-        public decimal GetTotalPriceAfterTaxAndDiscount()
+        public decimal GetTax()
         {
-            return Price
-                + Price.GetAmountFromPriceBasedOfRate(Tax)
-                - Price.GetAmountFromPriceBasedOfRate(Discount);
+            var taxRate = Price *(decimal) Tax;
+
+            return taxRate.RoundToTwoPlaces();
         }
-        public decimal GetTheTax()
+        public decimal GetDiscount()
         {
-            return Price.GetAmountFromPriceBasedOfRate(Tax);
+            var discountRate = Price * (decimal) Discount;
+
+            return discountRate.RoundToTwoPlaces();
         }
-        public decimal GetTheDiscount()
+        public decimal GetUPCDiscount()
         {
-            return Price.GetAmountFromPriceBasedOfRate(Discount);
+            var upcDiscountRate = Price * (decimal) UPCDiscount;
+            
+            return IsUpcIsEqualUpcValue() 
+                ? upcDiscountRate.RoundToTwoPlaces()
+                : 0;
         }
-        public decimal GetDiscountFromUpcDiscount()
-        {
-            return Price.GetAmountFromPriceBasedOfRate(UPCDiscount);
-        }
-        public bool IsUpcIsEqualUpcValue()
+        private bool IsUpcIsEqualUpcValue()
         {
             return UPC == UPCValue;
         }

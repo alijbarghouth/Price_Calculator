@@ -12,6 +12,6 @@ public class Program
         var productService = new ProductService(new TaxServcie(), new DiscountService()
             , new UPCDiscountServcie());
 
-        productService.AllInformationAboutProductPriceAfterTaxAndDiscount(product);
+        productService.AllInformationAboutProduct(product);
     }
 }

@@ -4,6 +4,6 @@ namespace Price_Calculator.Service.ProductServices.DiscountService
 {
     public interface IDiscountService
     {
-        decimal GetTheDiscountFromPrice(Product product);
+        decimal GetDiscountFromPrice(Product product);
     }
 }

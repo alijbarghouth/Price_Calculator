@@ -5,17 +5,17 @@ namespace Price_Calculator.Service.ProductServices.UpcDiscountService
 {
     public class UPCDiscountServcie : IUPCDiscountServcie
     {
-        public decimal GetUpcDiscount(Product product)
+        public decimal GetUpcDiscountFromPrice(Product product)
         {
-            var upcDiscount = product.GetDiscountFromUpcDiscount();
+            var upcDiscount = product.GetUPCDiscount();
             if (product.ApplyUpcDiscountsBeforeTax)
                 SetTotalPriceAfterTheDiscount(product);
 
             return upcDiscount;
         }
-        private void SetTotalPriceAfterTheDiscount(Product product)
+        private static void SetTotalPriceAfterTheDiscount(Product product)
         {
-            product.Price -= product.Price.GetAmountFromPriceBasedOfRate(product.UPCDiscount);
+            product.Price -= product.GetUPCDiscount();
         }
     }
 }

@@ -21,9 +21,8 @@ namespace Price_Calculator.Utils
             var discount = DiscountInputValidation();
             var upcDiscount = UpcDiscountInputValidation();
             var upcValue  =UpcValueInputValidation();
-            var applyDiscountsBeforeTax = ApplyDiscountsBeforeTaxInput();
             var applyUpcDiscountsBeforeTax = ApplyDiscountsBeforeTaxInput();
-            var product = new Product(name, price, upc, tax,discount,upcValue,upcDiscount,applyDiscountsBeforeTax,applyUpcDiscountsBeforeTax);
+            var product = new Product(name, price, upc, tax,discount,upcValue,upcDiscount,applyUpcDiscountsBeforeTax);
 
             return product;
         }
