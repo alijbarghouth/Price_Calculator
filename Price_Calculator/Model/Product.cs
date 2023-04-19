@@ -9,29 +9,42 @@ namespace Price_Calculator.Model
         public int UPC { get; set; }
         public double Tax { get; set; }
         public double Discount { get; set; }
+        public int UPCValue { get; set; }
+        public double UPCDiscount { get; set; }
 
-        public Product(string name, decimal price, int upc, double tax, double discount)
+        public Product(string name, decimal price, int upc, double tax, double discount, int uPCValue, double uPCDiscount)
         {
             Name = name;
             Price = price;
             UPC = upc;
             Tax = tax;
             Discount = discount;
+            UPCValue = uPCValue;
+            UPCDiscount = uPCDiscount;
         }
- 
         public decimal GetTax()
         {
-            var taxRate = (Price * (decimal)Tax);
+            var taxRate = Price *(decimal) Tax;
 
-            return taxRate.RoundToTowPlaces();
+            return taxRate.RoundToTwoPlaces();
         }
-      
         public decimal GetDiscount()
         {
-            var discountRate = (Price * (decimal)Discount);
+            var discountRate = Price * (decimal) Discount;
 
-            return discountRate.RoundToTowPlaces();
+            return discountRate.RoundToTwoPlaces();
         }
-        
+        public decimal GetUPCDiscount()
+        {
+            var upcDiscountRate = Price * (decimal) UPCDiscount;
+            
+            return IsUpcIsEqualUpcValue() 
+                ? upcDiscountRate.RoundToTwoPlaces()
+                : 0;
+        }
+        private bool IsUpcIsEqualUpcValue()
+        {
+            return UPC == UPCValue;
+        }
     }
 }

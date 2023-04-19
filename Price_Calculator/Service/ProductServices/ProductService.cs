@@ -1,6 +1,8 @@
-﻿using Price_Calculator.Model;
+﻿using Price_Calculator.Common;
+using Price_Calculator.Model;
 using Price_Calculator.Service.ProductServices.DiscountService;
 using Price_Calculator.Service.ProductServices.TaxService;
+using Price_Calculator.Service.ProductServices.UpcDiscountService;
 
 namespace Price_Calculator.Service.ProductServices
 {
@@ -8,14 +10,18 @@ namespace Price_Calculator.Service.ProductServices
     {
         private readonly ITaxServcie _taxServcie;
         private readonly IDiscountService _discountService;
+        private readonly IUPCDiscountServcie _uPCDiscountServcie;
 
-        public ProductService(ITaxServcie taxServcie, IDiscountService discountService)
+        public ProductService(ITaxServcie taxServcie
+            , IDiscountService discountService
+            , IUPCDiscountServcie uPCDiscountServcie)
         {
             _taxServcie = taxServcie;
             _discountService = discountService;
+            _uPCDiscountServcie = uPCDiscountServcie;
         }
 
-        public void AllInformationAboutProductPrice(Product product)
+        public void AllInformationAboutProduct(Product product)
         {
             if (product is null)
             {
@@ -24,16 +30,20 @@ namespace Price_Calculator.Service.ProductServices
             }
 
             Console.WriteLine($"The product price before any calcalation is {product.Price}");
+            Console.WriteLine($"the  discount of the price is  {GetTotalDiscount(product)}");
             Console.WriteLine($"The product After calcalation is {FinalPrice(product)}");
         }
 
         private decimal FinalPrice(Product product)
         {
-            var price = product.Price;
             var tax = _taxServcie.GetTaxFromPrice(product);
-            var discount = _discountService.GetDiscountFromPrice(product);
-
-            return price + tax - discount ;
+            
+            return product.Price + tax - GetTotalDiscount(product);
+        }
+        private decimal GetTotalDiscount(Product product)
+        {
+            return _discountService.GetDiscountFromPrice(product)
+                + _uPCDiscountServcie.GetUpcDiscountFromPrice(product);
         }
     }
 }

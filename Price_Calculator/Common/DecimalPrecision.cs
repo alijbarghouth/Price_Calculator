@@ -2,7 +2,7 @@
 {
     public static class DecimalPrecision
     {
-        public static decimal RoundToTowPlaces(this decimal price)
+        public static decimal RoundToTwoPlaces(this decimal price)
         {
             return Math.Round(price, 2);
         }
