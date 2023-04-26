@@ -4,6 +4,6 @@ namespace Price_Calculator.Service.ProductServices.CostService
 {
     public interface ICostService
     {
-        decimal GetTotalCostromPrice(Product product);
+        decimal GetTotalCustomTaxes(Product product);
     }
 }

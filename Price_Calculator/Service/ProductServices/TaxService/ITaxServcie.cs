@@ -4,6 +4,6 @@ namespace Price_Calculator.Service.ProductServices.TaxService
 {
     public interface ITaxServcie
     {
-        decimal GetTheTaxFromPrice(Product product);
+        decimal GetTaxFromPrice(Product product);
     }
 }

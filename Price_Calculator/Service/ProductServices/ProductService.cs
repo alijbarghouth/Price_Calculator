@@ -13,6 +13,7 @@ namespace Price_Calculator.Service.ProductServices
         private readonly IUPCDiscountServcie _uPCDiscountServcie;
         private readonly ICostService _costService;
 
+
         public ProductService(ITaxServcie taxServcie
             , IDiscountService discountService
             , IUPCDiscountServcie uPCDiscountServcie
@@ -24,52 +25,37 @@ namespace Price_Calculator.Service.ProductServices
             _costService = costService;
         }
 
-        public void AllInformationAboutProductPriceAfterTaxAndDiscount(Product product)
+        public void AllInformationAboutProduct(Product product)
         {
             if (product is null)
             {
                 Console.WriteLine("the product must be not null");
                 return;
             }
+
             Console.WriteLine($"The product price before any calcalation is {product.Price}");
-            var totalDiscount = GetTotalDiscount(product);
-            Console.WriteLine($"the  discount of the price is  {totalDiscount}");
-            Console.WriteLine($"The product After Tax And Discount is {PriceAfterTaxAndDiscountAndCosts(product)}");
+            Console.WriteLine($"the  discount of the price is  {GetTotalDiscount(product)}");
+            Console.WriteLine($"The product After calcalation is {FinalPrice(product)}");
         }
-
-        private decimal PriceAfterTaxAndDiscountAndCosts(Product product)
+        private decimal FinalPrice(Product product)
         {
-            var taxAndCost = _taxServcie.GetTheTaxFromPrice(product) 
-                + _costService.GetTotalCostromPrice(product);
-            var totalPrice = GetTotalPrice(product, taxAndCost) ;
+            var totalTaxes = GetTotalTaxes(product);
 
-            return totalPrice;
-        }
-        private decimal GetTotalPrice(Product product, decimal taxAndCost)
-        {
-            var priceWithTax = product.Price + taxAndCost;
+            if (product.ApplyUpcDiscountsBeforeTax)
+                return product.Price + totalTaxes - _discountService.GetDiscountFromPrice(product);
 
-            if(product.IsApplyDiscountsBeforeTax && product.IsApplyUpcDiscountsBeforeTax)
-                return priceWithTax;
-            else if (product.IsApplyDiscountsBeforeTax && !product.IsApplyUpcDiscountsBeforeTax)
-                return priceWithTax - _uPCDiscountServcie.GetUpcDiscount(product);
-            else if(!product.IsApplyDiscountsBeforeTax && product.IsApplyUpcDiscountsBeforeTax)
-                return priceWithTax - _discountService.GetTheDiscountFromPrice(product);
-            else
-                return priceWithTax - _discountService.GetTheDiscountFromPrice(product)
-                    -_uPCDiscountServcie.GetUpcDiscount(product);
+            return product.Price + totalTaxes - GetTotalDiscount(product);
         }
         private decimal GetTotalDiscount(Product product)
         {
-            if (product.IsApplyUpcDiscountsBeforeTax)
-                return product.IsUpcIsEqualUpcValue()
-                    ? _uPCDiscountServcie.GetUpcDiscount(product) + _discountService.GetTheDiscountFromPrice(product)
-                    : _discountService.GetTheDiscountFromPrice(product);
-            else 
-                return product.IsUpcIsEqualUpcValue()
-                    ? _discountService.GetTheDiscountFromPrice(product) + _uPCDiscountServcie.GetUpcDiscount(product)
-                    : _discountService.GetTheDiscountFromPrice(product);
-
+            return _uPCDiscountServcie.GetUpcDiscountFromPrice(product)
+                + _discountService.GetDiscountFromPrice(product);
+        }
+        private decimal GetTotalTaxes(Product product)
+        {
+            return _taxServcie.GetTaxFromPrice(product)
+                + _costService.GetTotalCustomTaxes(product);
         }
     }
 }
+

@@ -5,14 +5,17 @@ using Price_Calculator.Service.ProductServices.TaxService;
 using Price_Calculator.Service.ProductServices.UpcDiscountService;
 using Price_Calculator.Utils;
 
-public class Program
+namespace Price_Calculator
 {
-    private static void Main(string[] args)
+    public class Program
     {
-        var product = InputValidator.InputValidation();
-        var productService = new ProductService(new TaxServcie(), new DiscountService()
-            , new UPCDiscountServcie(), new CostService());
+        private static void Main(string[] args)
+        {
+            var product = InputValidator.InputValidation();
+            var productService = new ProductService(new TaxServcie(), new DiscountService()
+                , new UPCDiscountServcie(), new CostService());
 
-        productService.AllInformationAboutProductPriceAfterTaxAndDiscount(product);
+            productService.AllInformationAboutProduct(product);
+        }
     }
 }
