@@ -1,5 +1,4 @@
-﻿using Price_Calculator.Common;
-using Price_Calculator.Model;
+﻿using Price_Calculator.Model;
 using Price_Calculator.Service.ProductServices.DiscountService;
 using Price_Calculator.Service.ProductServices.TaxService;
 using Price_Calculator.Service.ProductServices.UpcDiscountService;
@@ -33,17 +32,19 @@ namespace Price_Calculator.Service.ProductServices
             Console.WriteLine($"the  discount of the price is  {GetTotalDiscount(product)}");
             Console.WriteLine($"The product After calcalation is {FinalPrice(product)}");
         }
-
         private decimal FinalPrice(Product product)
         {
             var tax = _taxServcie.GetTaxFromPrice(product);
-            
+
+            if (product.ApplyUpcDiscountsBeforeTax)
+                return product.Price + tax - _discountService.GetDiscountFromPrice(product);
+
             return product.Price + tax - GetTotalDiscount(product);
         }
         private decimal GetTotalDiscount(Product product)
         {
-            return _discountService.GetDiscountFromPrice(product)
-                + _uPCDiscountServcie.GetUpcDiscountFromPrice(product);
+            return _uPCDiscountServcie.GetUpcDiscountFromPrice(product)
+                + _discountService.GetDiscountFromPrice(product);
         }
     }
 }

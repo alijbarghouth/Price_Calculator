@@ -1,4 +1,5 @@
-﻿using Price_Calculator.Model;
+﻿using Price_Calculator.Common;
+using Price_Calculator.Model;
 
 namespace Price_Calculator.Service.ProductServices.DiscountService
 {
@@ -6,7 +7,7 @@ namespace Price_Calculator.Service.ProductServices.DiscountService
     {
         public decimal GetDiscountFromPrice(Product product)
         {
-            return product.GetDiscount(); ;
+            return product.GetDiscount();
         }
     }
 }
