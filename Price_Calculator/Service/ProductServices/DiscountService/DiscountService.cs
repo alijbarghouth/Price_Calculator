@@ -1,4 +1,4 @@
-﻿using Price_Calculator.Common;
+﻿using Price_Calculator.Common.ProductExtension;
 using Price_Calculator.Model;
 
 namespace Price_Calculator.Service.ProductServices.DiscountService

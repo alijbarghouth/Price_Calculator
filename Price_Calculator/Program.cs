@@ -8,7 +8,7 @@ namespace Price_Calculator
 {
     public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             var product = InputValidator.InputValidation();
             var productService = new ProductService(new TaxServcie(), new DiscountService()

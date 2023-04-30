@@ -1,4 +1,5 @@
 ﻿using Price_Calculator.Common;
+using Price_Calculator.Common.ProductExtension;
 
 namespace Price_Calculator.Model
 {
