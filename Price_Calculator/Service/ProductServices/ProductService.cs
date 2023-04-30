@@ -1,5 +1,4 @@
 ﻿using Price_Calculator.Model;
-using Price_Calculator.Service.ProductServices.CostService;
 using Price_Calculator.Service.ProductServices.DiscountService;
 using Price_Calculator.Service.ProductServices.TaxService;
 using Price_Calculator.Service.ProductServices.UpcDiscountService;
@@ -11,17 +10,14 @@ namespace Price_Calculator.Service.ProductServices
         private readonly ITaxServcie _taxServcie;
         private readonly IDiscountService _discountService;
         private readonly IUPCDiscountServcie _uPCDiscountServcie;
-        private readonly ICostService _costService;
 
         public ProductService(ITaxServcie taxServcie
             , IDiscountService discountService
-            , IUPCDiscountServcie uPCDiscountServcie
-            , ICostService costService)
+            , IUPCDiscountServcie uPCDiscountServcie)
         {
             _taxServcie = taxServcie;
             _discountService = discountService;
             _uPCDiscountServcie = uPCDiscountServcie;
-            _costService = costService;
         }
 
         public void AllInformationAboutProduct(Product product)
@@ -53,7 +49,7 @@ namespace Price_Calculator.Service.ProductServices
         private decimal GetTotalTaxes(Product product)
         {
             return _taxServcie.GetTaxFromPrice(product)
-                + _costService.GetTotalCustomTaxes(product);
+                + product.GetTotalCost();
         }
     }
 }
