@@ -13,7 +13,6 @@ namespace Price_Calculator.Service.ProductServices
         private readonly IUPCDiscountServcie _uPCDiscountServcie;
         private readonly ICostService _costService;
 
-
         public ProductService(ITaxServcie taxServcie
             , IDiscountService discountService
             , IUPCDiscountServcie uPCDiscountServcie
