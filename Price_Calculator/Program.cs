@@ -1,19 +1,20 @@
 ﻿using Price_Calculator.Service.ProductServices;
-using Price_Calculator.Service.ProductServices.CapService;
-using Price_Calculator.Service.ProductServices.CostService;
 using Price_Calculator.Service.ProductServices.DiscountService;
 using Price_Calculator.Service.ProductServices.TaxService;
 using Price_Calculator.Service.ProductServices.UpcDiscountService;
 using Price_Calculator.Utils;
 
-public class Program
+namespace Price_Calculator
 {
-    private static void Main(string[] args)
+    public class Program
     {
-        var product = InputValidator.InputValidation();
-        var productService = new ProductService(new TaxServcie(), new DiscountService()
-            , new UPCDiscountServcie(), new CostService() ,new CapService());
+        private static void Main()
+        {
+            var product = InputValidator.InputValidation();
+            var productService = new ProductService(new TaxServcie(), new DiscountService()
+                , new UPCDiscountServcie());
 
-        productService.AllInformationAboutProductPriceAfterTaxAndDiscount(product);
+            productService.AllInformationAboutProduct(product);
+        }
     }
 }

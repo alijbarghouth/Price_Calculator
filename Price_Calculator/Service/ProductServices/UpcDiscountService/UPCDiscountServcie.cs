@@ -1,21 +1,17 @@
-﻿using Price_Calculator.Common;
+﻿using Price_Calculator.Common.ProductExtension;
 using Price_Calculator.Model;
 
 namespace Price_Calculator.Service.ProductServices.UpcDiscountService
 {
     public class UPCDiscountServcie : IUPCDiscountServcie
     {
-        public decimal GetUpcDiscount(Product product)
+        public decimal GetUpcDiscountFromPrice(Product product)
         {
-            var upcDiscount = product.GetDiscountFromUpcDiscount();
-            if (product.IsApplyUpcDiscountsBeforeTax)
-                SetTotalPriceAfterTheDiscount(product);
+            var upcDiscount = product.GetUPCDiscount();
+            if (product.ApplyUpcDiscountsBeforeTax)
+                product.SetTotalPriceAfterTheDiscount(upcDiscount);
 
             return upcDiscount;
-        }
-        private void SetTotalPriceAfterTheDiscount(Product product)
-        {
-            product.Price -= product.Price.GetAmountFromPriceBasedOfRate(product.UPCDiscount);
         }
     }
 }
