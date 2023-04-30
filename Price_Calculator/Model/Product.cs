@@ -1,4 +1,5 @@
 ﻿using Price_Calculator.Common;
+using Price_Calculator.Common.ProductExtension;
 
 namespace Price_Calculator.Model
 {
@@ -14,9 +15,11 @@ namespace Price_Calculator.Model
         public bool ApplyUpcDiscountsBeforeTax { get; set; }
         public double PackagingCost { get; set; }
         public double TransportCost { get; set; }
+        public bool IsNormalDiscount { get; set; }
 
         public Product(string name, decimal price, int upc, double tax, double discount,
-            int uPCValue, double uPCDiscount, bool applyUpcDiscountsBeforeTax, double transportCost, double packagingCost)
+            int uPCValue, double uPCDiscount, bool applyUpcDiscountsBeforeTax, double transportCost
+            , double packagingCost, bool isNormalDiscount)
         {
             Name = name;
             Price = price;
@@ -28,6 +31,7 @@ namespace Price_Calculator.Model
             ApplyUpcDiscountsBeforeTax = applyUpcDiscountsBeforeTax;
             TransportCost = transportCost;
             PackagingCost = packagingCost;
+            IsNormalDiscount = isNormalDiscount;
         }
         public decimal GetTax()
         {

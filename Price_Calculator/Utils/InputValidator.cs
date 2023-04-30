@@ -24,8 +24,10 @@ namespace Price_Calculator.Utils
             var applyUpcDiscountsBeforeTax = BooleanInputValidation();
             var packagingCost = DoubleInputs("Enter The Product Packaging Cost");
             var transportCost = DoubleInputs("Enter The Product Transport Cost");
+            var IsNormalDiscount = BooleanInputValidation();
             var product = new Product(name, price, upc, tax, discount,upcValue
-                , upcDiscount, applyUpcDiscountsBeforeTax, transportCost, packagingCost);
+                , upcDiscount, applyUpcDiscountsBeforeTax, transportCost
+                , packagingCost, IsNormalDiscount);
 
             return product;
         }

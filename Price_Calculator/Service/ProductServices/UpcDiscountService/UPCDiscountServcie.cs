@@ -1,4 +1,5 @@
-﻿using Price_Calculator.Model;
+﻿using Price_Calculator.Common.ProductExtension;
+using Price_Calculator.Model;
 
 namespace Price_Calculator.Service.ProductServices.UpcDiscountService
 {
@@ -8,13 +9,9 @@ namespace Price_Calculator.Service.ProductServices.UpcDiscountService
         {
             var upcDiscount = product.GetUPCDiscount();
             if (product.ApplyUpcDiscountsBeforeTax)
-                SetTotalPriceAfterTheDiscount(product);
+                product.SetTotalPriceAfterTheDiscount(upcDiscount);
 
             return upcDiscount;
-        }
-        private static void SetTotalPriceAfterTheDiscount(Product product)
-        {
-            product.Price -= product.GetUPCDiscount();
         }
     }
 }
