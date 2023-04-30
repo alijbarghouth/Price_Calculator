@@ -32,6 +32,7 @@ namespace Price_Calculator.Service.ProductServices
             if (product.IsNormalDiscount)
             {
                 Console.WriteLine($"the  discount of the price is  {GetTotalDiscount(product)}");
+                _taxAmount = GetTotalTaxes(product);
                 Console.WriteLine($"The product After calcalation is {FinalPrice(product)}");
             }
             else
@@ -46,12 +47,10 @@ namespace Price_Calculator.Service.ProductServices
             if (!product.IsNormalDiscount)
                 return product.Price + _taxAmount - _uPCDiscountServcie.GetUpcDiscountFromPrice(product);
 
-            var totalTaxes = GetTotalTaxes(product);
-
             if (product.ApplyUpcDiscountsBeforeTax)
-                return product.Price + totalTaxes - _discountService.GetDiscountFromPrice(product);
+                return product.Price + _taxAmount - _discountService.GetDiscountFromPrice(product);
 
-            return product.Price + totalTaxes - GetTotalDiscount(product);
+            return product.Price + _taxAmount - GetTotalDiscount(product);
         }
         private decimal GetTotalDiscount(Product product)
         {
