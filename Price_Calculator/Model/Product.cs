@@ -12,9 +12,11 @@ namespace Price_Calculator.Model
         public int UPCValue { get; set; }
         public double UPCDiscount { get; set; }
         public bool ApplyUpcDiscountsBeforeTax { get; set; }
+        public double PackagingCost { get; set; }
+        public double TransportCost { get; set; }
 
         public Product(string name, decimal price, int upc, double tax, double discount,
-            int uPCValue, double uPCDiscount, bool applyUpcDiscountsBeforeTax)
+            int uPCValue, double uPCDiscount, bool applyUpcDiscountsBeforeTax, double transportCost, double packagingCost)
         {
             Name = name;
             Price = price;
@@ -24,6 +26,8 @@ namespace Price_Calculator.Model
             UPCValue = uPCValue;
             UPCDiscount = uPCDiscount;
             ApplyUpcDiscountsBeforeTax = applyUpcDiscountsBeforeTax;
+            TransportCost = transportCost;
+            PackagingCost = packagingCost;
         }
         public decimal GetTax()
         {
@@ -48,6 +52,22 @@ namespace Price_Calculator.Model
         private bool IsUpcIsEqualUpcValue()
         {
             return UPC == UPCValue;
+        }
+        public decimal GetTotalCost()
+        {
+            return GetTransportCost() + GetPackagingCost();
+        }
+        private decimal GetTransportCost()
+        {
+            var transportCost = TransportCost > 1 ? (decimal) TransportCost : Price * (decimal)TransportCost;
+
+            return transportCost.RoundToTwoPlaces();
+        }
+        private decimal GetPackagingCost()
+        {
+            var packagingCost = PackagingCost > 1 ? (decimal) PackagingCost : Price * (decimal)PackagingCost;
+
+            return packagingCost.RoundToTwoPlaces();
         }
     }
 }

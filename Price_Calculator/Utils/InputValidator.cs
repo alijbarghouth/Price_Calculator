@@ -10,19 +10,22 @@ namespace Price_Calculator.Utils
         private readonly static string upcPattern = @"^\d+$";
         private readonly static string taxPattern = @"^\d+(\.\d{1,2})?$";
         private readonly static string discountPattern = @"^\d+(\.\d{1,2})?$";
-        private readonly static string BooleanPattern = @"^(True|False|true|false)$";
+        private readonly static string booleanPattern = @"^(True|False|true|false)$";
 
         public static Product InputValidation()
         {
             var name = NameInputValidation();
             var price = PriceInputValidation();
             var upc = UpcInputValidation();
-            var tax = TaxInputValidation();
+            var tax = DoubleInputs("Enter The Product Tax");
             var discount = DiscountInputValidation();
             var upcDiscount = UpcDiscountInputValidation();
-            var upcValue  =UpcValueInputValidation();
+            var upcValue  = UpcValueInputValidation();
             var applyUpcDiscountsBeforeTax = BooleanInputValidation();
-            var product = new Product(name, price, upc, tax,discount,upcValue,upcDiscount,applyUpcDiscountsBeforeTax);
+            var packagingCost = DoubleInputs("Enter The Product Packaging Cost");
+            var transportCost = DoubleInputs("Enter The Product Transport Cost");
+            var product = new Product(name, price, upc, tax, discount,upcValue
+                , upcDiscount, applyUpcDiscountsBeforeTax, transportCost, packagingCost);
 
             return product;
         }
@@ -53,9 +56,9 @@ namespace Price_Calculator.Utils
 
             return Convert.ToDecimal(stringPrice);
         }
-        private static double TaxInputValidation()
+        private static double DoubleInputs(string message)
         {
-            Console.WriteLine("Enter The Product Tax");
+            Console.WriteLine(message);
 
             var taxInput = Console.ReadLine();
             var taxDouble = taxInput.InputsValidatedUsingRegularExpression(taxPattern);
@@ -89,12 +92,13 @@ namespace Price_Calculator.Utils
 
             return int.Parse(upcValueDouble);
         }
+
         private static bool BooleanInputValidation()
         {
             Console.WriteLine("Enter The True if you like to Apply Discounts Before Tax or false to Apply Discounts After Tax ");
 
             var applyDiscountsBeforeTax = Console.ReadLine();
-            var applyDiscountsBeforeTaxBool = applyDiscountsBeforeTax.InputsValidatedUsingRegularExpression(BooleanPattern);
+            var applyDiscountsBeforeTaxBool = applyDiscountsBeforeTax.InputsValidatedUsingRegularExpression(booleanPattern);
 
             return bool.Parse(applyDiscountsBeforeTaxBool);
         }

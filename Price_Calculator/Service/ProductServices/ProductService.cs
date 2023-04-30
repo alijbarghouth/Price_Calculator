@@ -34,17 +34,23 @@ namespace Price_Calculator.Service.ProductServices
         }
         private decimal FinalPrice(Product product)
         {
-            var tax = _taxServcie.GetTaxFromPrice(product);
+            var totalTaxes = GetTotalTaxes(product);
 
             if (product.ApplyUpcDiscountsBeforeTax)
-                return product.Price + tax - _discountService.GetDiscountFromPrice(product);
+                return product.Price + totalTaxes - _discountService.GetDiscountFromPrice(product);
 
-            return product.Price + tax - GetTotalDiscount(product);
+            return product.Price + totalTaxes - GetTotalDiscount(product);
         }
         private decimal GetTotalDiscount(Product product)
         {
             return _uPCDiscountServcie.GetUpcDiscountFromPrice(product)
                 + _discountService.GetDiscountFromPrice(product);
         }
+        private decimal GetTotalTaxes(Product product)
+        {
+            return _taxServcie.GetTaxFromPrice(product)
+                + product.GetTotalCost();
+        }
     }
 }
+

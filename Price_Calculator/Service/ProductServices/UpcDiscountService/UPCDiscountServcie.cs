@@ -1,5 +1,4 @@
-﻿using Price_Calculator.Common;
-using Price_Calculator.Model;
+﻿using Price_Calculator.Model;
 
 namespace Price_Calculator.Service.ProductServices.UpcDiscountService
 {
