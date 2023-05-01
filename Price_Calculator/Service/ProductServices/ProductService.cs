@@ -34,12 +34,12 @@ namespace Price_Calculator.Service.ProductServices
         }
         private void PrintFinalPrice(Product product)
         {
-            Console.WriteLine($"The product price before any calcalation is {product.Price}{product.CurrencyType}");
+            Console.WriteLine($"The product price before any calcalation is {product.Price} {product.CurrencyType}");
             if (product.IsNormalDiscount)
             {
                 _discountAmount = GetTotalDiscount(product);
                 _discountAmount = GetDiscount(product, _discountAmount);
-                Console.WriteLine($"the  discount of the price is  {_discountAmount}{product.CurrencyType}");
+                Console.WriteLine($"the  discount of the price is  {_discountAmount} {product.CurrencyType}");
                 _taxAmount = GetTotalTaxes(product);
             }
             else
