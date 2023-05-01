@@ -40,13 +40,13 @@ namespace Price_Calculator.Model
         {
             var taxRate = Price * (decimal)Tax;
 
-            return taxRate.RoundToTwoPlaces();
+            return taxRate;
         }
         public decimal GetDiscount()
         {
             var discountRate = Price * (decimal)Discount;
 
-            return discountRate.RoundToTwoPlaces();
+            return discountRate;
         }
         public decimal GetUPCDiscount()
         {
@@ -68,19 +68,19 @@ namespace Price_Calculator.Model
         {
             var transportCost = TransportCost > 1 ? (decimal)TransportCost : Price * (decimal)TransportCost;
 
-            return transportCost.RoundToTwoPlaces();
+            return transportCost;
         }
         private decimal GetPackagingCost()
         {
             var packagingCost = PackagingCost > 1 ? (decimal)PackagingCost : Price * (decimal)PackagingCost;
 
-            return packagingCost.RoundToTwoPlaces();
+            return packagingCost;
         }
         public decimal GetCapFromProductPrice()
         {
             var cap = Cap > 1 ? (decimal)Cap : Price * (decimal)Cap;
 
-            return cap.RoundToTwoPlaces();
+            return cap;
         }
     }
 }

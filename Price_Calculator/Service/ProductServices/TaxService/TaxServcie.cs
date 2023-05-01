@@ -1,4 +1,5 @@
-﻿using Price_Calculator.Model;
+﻿using Price_Calculator.Common.ProductExtension;
+using Price_Calculator.Model;
 
 namespace Price_Calculator.Service.ProductServices.TaxService
 {
@@ -7,7 +8,7 @@ namespace Price_Calculator.Service.ProductServices.TaxService
         public decimal GetTaxFromPrice(Product product)
         {
             var tax = product.GetTax();
-            Console.WriteLine($"the Tax of the product is {tax} {product.CurrencyType}");
+            Console.WriteLine($"the Tax of the product is {tax.RoundToTwoPlaces()} {product.CurrencyType}");
 
             return tax;
         }
