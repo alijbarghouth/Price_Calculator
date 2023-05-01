@@ -1,4 +1,5 @@
-﻿using Price_Calculator.Model;
+﻿using Price_Calculator.Common.ProductExtension;
+using Price_Calculator.Model;
 using Price_Calculator.Service.ProductServices.DiscountService;
 using Price_Calculator.Service.ProductServices.TaxService;
 using Price_Calculator.Service.ProductServices.UpcDiscountService;
@@ -39,7 +40,7 @@ namespace Price_Calculator.Service.ProductServices
             {
                 _discountAmount = GetTotalDiscount(product);
                 _discountAmount = GetDiscount(product, _discountAmount);
-                Console.WriteLine($"the  discount of the price is  {_discountAmount} {product.CurrencyType}");
+                Console.WriteLine($"the  discount of the price is  {_discountAmount.RoundToTwoPlaces()} {product.CurrencyType}");
                 _taxAmount = GetTotalTaxes(product);
             }
             else
@@ -47,9 +48,9 @@ namespace Price_Calculator.Service.ProductServices
                 _taxAmount = GetTotalTaxes(product);
                 _discountAmount = GetTotalDiscount(product);
                 _discountAmount = GetDiscount(product, _discountAmount);
-                Console.WriteLine($"the  discount of the price is  {_discountAmount} {product.CurrencyType}");
+                Console.WriteLine($"the  discount of the price is  {_discountAmount.RoundToTwoPlaces()} {product.CurrencyType}");
             }
-            Console.WriteLine($"The product After calcalation is {FinalPrice(_discountAmount)} {product.CurrencyType}");
+            Console.WriteLine($"The product After calcalation is {FinalPrice(_discountAmount).RoundToTwoPlaces()} {product.CurrencyType}");
         }
         private static decimal GetDiscount(Product product, decimal discount)
         {
