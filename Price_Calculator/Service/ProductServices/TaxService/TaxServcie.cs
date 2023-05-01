@@ -4,10 +4,10 @@ namespace Price_Calculator.Service.ProductServices.TaxService
 {
     public class TaxServcie : ITaxServcie
     {
-        public decimal GetTheTaxFromPrice(Product product)
+        public decimal GetTaxFromPrice(Product product)
         {
-            var tax = product.GetTheTax();
-            Console.WriteLine($"the Tax of the product is {tax}");
+            var tax = product.GetTax();
+            Console.WriteLine($"the Tax of the product is {tax}{product.CurrencyType}");
 
             return tax;
         }

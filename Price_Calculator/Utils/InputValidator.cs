@@ -20,18 +20,17 @@ namespace Price_Calculator.Utils
             var tax = DoubleInputs("Enter The Product Tax");
             var discount = DiscountInputValidation();
             var upcDiscount = UpcDiscountInputValidation();
-            var upcValue  = UpcValueInputValidation();
-            var applyDiscountsBeforeTax = BooleanInputs("Enter The True if you like to Apply Discounts Before Tax or false to Apply Discounts After Tax ");
-            var applyUpcDiscountsBeforeTax = BooleanInputs("Enter The True if you like to Apply Discounts Before Tax or false to Apply Discounts After Tax ");
+            var upcValue = UpcValueInputValidation();
+            var applyUpcDiscountsBeforeTax = BooleanInputValidation();
             var packagingCost = DoubleInputs("Enter The Product Packaging Cost");
             var transportCost = DoubleInputs("Enter The Product Transport Cost");
-            var isNormalDiscount = BooleanInputs("Enter The True if you like to Apply Normal Discounts or false to Apply not normal Discounts");
+            var IsNormalDiscount = BooleanInputValidation();
             var cap = DoubleInputs("Enter The Product Cap");
             var currancyType = NameInputValidation("Enter The Currancy Type");
 
-            var product = new Product(name, price, upc, tax,discount,upcValue,upcDiscount
-                ,applyDiscountsBeforeTax,applyUpcDiscountsBeforeTax,packagingCost
-                ,transportCost,isNormalDiscount,cap,currancyType);
+            var product = new Product(name, price, upc, tax, discount, upcValue
+                , upcDiscount, applyUpcDiscountsBeforeTax, transportCost
+                , packagingCost, IsNormalDiscount,cap,currancyType);
 
             return product;
         }
@@ -98,9 +97,10 @@ namespace Price_Calculator.Utils
 
             return int.Parse(upcValueDouble);
         }
-        private static bool BooleanInputs(string message)
+
+        private static bool BooleanInputValidation()
         {
-            Console.WriteLine(message);
+            Console.WriteLine("Enter The True if you like to Apply Discounts Before Tax or false to Apply Discounts After Tax ");
 
             var applyDiscountsBeforeTax = Console.ReadLine();
             var applyDiscountsBeforeTaxBool = applyDiscountsBeforeTax.InputsValidatedUsingRegularExpression(booleanPattern);
