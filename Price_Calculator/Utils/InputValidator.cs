@@ -20,14 +20,15 @@ namespace Price_Calculator.Utils
             var tax = DoubleInputs("Enter The Product Tax");
             var discount = DiscountInputValidation();
             var upcDiscount = UpcDiscountInputValidation();
-            var upcValue  = UpcValueInputValidation();
+            var upcValue = UpcValueInputValidation();
             var applyUpcDiscountsBeforeTax = BooleanInputValidation();
             var packagingCost = DoubleInputs("Enter The Product Packaging Cost");
             var transportCost = DoubleInputs("Enter The Product Transport Cost");
             var IsNormalDiscount = BooleanInputValidation();
-            var product = new Product(name, price, upc, tax, discount,upcValue
+            var cap = DoubleInputs("Enter The Product Cap");
+            var product = new Product(name, price, upc, tax, discount, upcValue
                 , upcDiscount, applyUpcDiscountsBeforeTax, transportCost
-                , packagingCost, IsNormalDiscount);
+                , packagingCost, IsNormalDiscount,cap);
 
             return product;
         }

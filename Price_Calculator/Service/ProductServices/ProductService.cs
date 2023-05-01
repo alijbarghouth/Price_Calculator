@@ -10,7 +10,9 @@ namespace Price_Calculator.Service.ProductServices
         private readonly ITaxServcie _taxServcie;
         private readonly IDiscountService _discountService;
         private readonly IUPCDiscountServcie _uPCDiscountServcie;
-        private  decimal _taxAmount;
+        private decimal _taxAmount;
+        private decimal _discountAmount;
+        private decimal _price;
         public ProductService(ITaxServcie taxServcie
             , IDiscountService discountService
             , IUPCDiscountServcie uPCDiscountServcie)
@@ -27,31 +29,36 @@ namespace Price_Calculator.Service.ProductServices
                 Console.WriteLine("the product must be not null");
                 return;
             }
-
+            _price = product.Price;
+            PrintFinalPrice(product);
+        }
+        private void PrintFinalPrice(Product product)
+        {
             Console.WriteLine($"The product price before any calcalation is {product.Price}");
             if (product.IsNormalDiscount)
             {
-                Console.WriteLine($"the  discount of the price is  {GetTotalDiscount(product)}");
+                _discountAmount = GetTotalDiscount(product);
+                _discountAmount = GetDiscount(product, _discountAmount);
+                Console.WriteLine($"the  discount of the price is  {_discountAmount}");
                 _taxAmount = GetTotalTaxes(product);
-                Console.WriteLine($"The product After calcalation is {FinalPrice(product)}");
             }
             else
             {
                 _taxAmount = GetTotalTaxes(product);
-                Console.WriteLine($"the  discount of the price is  {GetTotalDiscount(product)}");
-                Console.WriteLine($"The product After calcalation is {FinalPrice(product)}");
+                _discountAmount = GetTotalDiscount(product);
+                _discountAmount = GetDiscount(product, _discountAmount);
+                Console.WriteLine($"the  discount of the price is  {_discountAmount}");
             }
+            Console.WriteLine($"The product After calcalation is {FinalPrice(_discountAmount)}");
         }
-        private decimal FinalPrice(Product product)
+        private static decimal GetDiscount(Product product, decimal discount)
         {
-            if (!product.IsNormalDiscount)
-                return product.Price + _taxAmount - _uPCDiscountServcie.GetUpcDiscountFromPrice(product);
+            var capDiscount = product.GetCapFromProductPrice();
 
-            if (product.ApplyUpcDiscountsBeforeTax)
-                return product.Price + _taxAmount - _discountService.GetDiscountFromPrice(product);
-
-            return product.Price + _taxAmount - GetTotalDiscount(product);
+            return discount < capDiscount ? discount : capDiscount;
         }
+        private decimal FinalPrice(decimal discount) =>  _price + _taxAmount - discount;
+        
         private decimal GetTotalDiscount(Product product)
         {
             if (product.IsNormalDiscount)
@@ -63,4 +70,3 @@ namespace Price_Calculator.Service.ProductServices
             => _taxServcie.GetTaxFromPrice(product) + product.GetTotalCost();
     }
 }
-
