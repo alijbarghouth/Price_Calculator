@@ -14,7 +14,7 @@ namespace Price_Calculator.Utils
 
         public static Product InputValidation()
         {
-            var name = NameInputValidation();
+            var name = StringInputValidation("Enter The Product Name");
             var price = PriceInputValidation();
             var upc = UpcInputValidation();
             var tax = DoubleInputs("Enter The Product Tax");
@@ -26,15 +26,17 @@ namespace Price_Calculator.Utils
             var transportCost = DoubleInputs("Enter The Product Transport Cost");
             var IsNormalDiscount = BooleanInputValidation();
             var cap = DoubleInputs("Enter The Product Cap");
+            var currancyType = StringInputValidation("Enter The Currancy Type");
+
             var product = new Product(name, price, upc, tax, discount, upcValue
                 , upcDiscount, applyUpcDiscountsBeforeTax, transportCost
-                , packagingCost, IsNormalDiscount,cap);
+                , packagingCost, IsNormalDiscount,cap,currancyType);
 
             return product;
         }
-        private static string NameInputValidation()
+        private static string StringInputValidation(string message)
         {
-            Console.WriteLine("Enter The Product Name");
+            Console.WriteLine(message);
 
             var name = Console.ReadLine()?.Trim();
             var nameString = name.InputsValidatedUsingRegularExpression(stringPattern);

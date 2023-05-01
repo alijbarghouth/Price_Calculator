@@ -34,12 +34,12 @@ namespace Price_Calculator.Service.ProductServices
         }
         private void PrintFinalPrice(Product product)
         {
-            Console.WriteLine($"The product price before any calcalation is {product.Price}");
+            Console.WriteLine($"The product price before any calcalation is {product.Price} {product.CurrencyType}");
             if (product.IsNormalDiscount)
             {
                 _discountAmount = GetTotalDiscount(product);
                 _discountAmount = GetDiscount(product, _discountAmount);
-                Console.WriteLine($"the  discount of the price is  {_discountAmount}");
+                Console.WriteLine($"the  discount of the price is  {_discountAmount} {product.CurrencyType}");
                 _taxAmount = GetTotalTaxes(product);
             }
             else
@@ -47,9 +47,9 @@ namespace Price_Calculator.Service.ProductServices
                 _taxAmount = GetTotalTaxes(product);
                 _discountAmount = GetTotalDiscount(product);
                 _discountAmount = GetDiscount(product, _discountAmount);
-                Console.WriteLine($"the  discount of the price is  {_discountAmount}");
+                Console.WriteLine($"the  discount of the price is  {_discountAmount} {product.CurrencyType}");
             }
-            Console.WriteLine($"The product After calcalation is {FinalPrice(_discountAmount)}");
+            Console.WriteLine($"The product After calcalation is {FinalPrice(_discountAmount)} {product.CurrencyType}");
         }
         private static decimal GetDiscount(Product product, decimal discount)
         {
@@ -57,8 +57,8 @@ namespace Price_Calculator.Service.ProductServices
 
             return discount < capDiscount ? discount : capDiscount;
         }
-        private decimal FinalPrice(decimal discount) =>  _price + _taxAmount - discount;
-        
+        private decimal FinalPrice(decimal discount) => _price + _taxAmount - discount;
+
         private decimal GetTotalDiscount(Product product)
         {
             if (product.IsNormalDiscount)
